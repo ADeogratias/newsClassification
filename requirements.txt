@@ -5,3 +5,8 @@ matplotlib>=1.4.3
 pandas>=0.19
 tensorflow-cpu
 streamlit
+nltk
+sd_algorithm
+re
+string
+HTMLParser
