@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import re
@@ -13,6 +12,8 @@ import sd_algorithm
 df = pd.read_csv("mined_news.csv")
 
 sd = sd_algorithm.SDAlgorithm()
+
+stopwords_eng = stopwords.words('english')
 
 # Loading the model
 pickle_in = open("newscluster_model.sav", "rb")
@@ -59,7 +60,7 @@ def clean_content(content):
 
 def predict_news(url):
     content = website_content(url)
-    content = clean_content(listToString(content[3]))
+    content = clean_content(list_to_String(content[3]))
     encoded_text = tokenizer.texts_to_sequences([content])
     max_length = 2
     padded_text = pad_sequences(encoded_text, maxlen=max_length, padding='post')
@@ -84,16 +85,16 @@ if st.button("Classify News"):
     result = predict_news(url)
     if result == [0]:
         categori = 'Business'
-        related = df[df['category']=='business']["url"]
+        related = df[df['content_category']=='business']["link"]
     elif result == [1]:
         categori = 'Entertainment'
-        related = df[df['category']=='entertainment']["url"]
+        related = df[df['content_category']=='entertainment']["link"]
     elif result == [2]:
         categori = 'Politics'
-        related = df[df['category']=='politics']["url"]
+        related = df[df['content_category']=='politics']["link"]
     elif result == [3]:
         categori = 'Sports'
-        related = df[df['category']=='sports']["url"]
+        related = df[df['content_category']=='sports']["link"]
 st.success('The article category prediction is: {}'.format(categori))
 
 # front end elements of the web page 
